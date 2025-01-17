@@ -6,30 +6,41 @@ import IconTwitter from "../assets/IconTwitter.svg";
 import Linkedin from "../assets/IconLinkedin.svg";
 ---
 
-<footer class="bg-white p-6 border-t border-gray-300 text-gray-600">
-  <div class="flex items-center space-x-4 mb-6">
-    <IconLogo width={64} height={64} class="text-gray-800" />
-  </div>
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+<footer class="bg-white border-t border-gray-300 text-gray-600">
+  <div
+    class="container mx-auto px-6 py-10 grid grid-cols-2 lg:grid-cols-4 gap-8"
+  >
+    <!-- Logo and name -->
+    <div class="col-span-full lg:col-span-1 lg:row-span-2">
+      <div class="flex column space-x-2 mb-1">
+        <IconLogo class="w-100 h-100 text-gray-800" />
+      </div>
+    </div>
+
+    <!-- Section: Sell a Home -->
     <div>
-      <h4 class="font-bold text-gray-800 mb-2">Sell a Home</h4>
-      <ul class="space-y-1">
+      <h4 class="font-bold text-gray-800 mb-4">Sell a Home</h4>
+      <ul class="space-y-2">
         <li><a href="#" class="hover:text-gray-900">Request an offer</a></li>
         <li><a href="#" class="hover:text-gray-900">Pricing</a></li>
         <li><a href="#" class="hover:text-gray-900">Reviews</a></li>
         <li><a href="#" class="hover:text-gray-900">Stories</a></li>
       </ul>
     </div>
+
+    <!-- Section: Buy a Home -->
     <div>
-      <h4 class="font-bold text-gray-800 mb-2">Buy a Home</h4>
-      <ul class="space-y-1">
+      <h4 class="font-bold text-gray-800 mb-4">Buy a Home</h4>
+      <ul class="space-y-2">
         <li><a href="#" class="hover:text-gray-900">Buy</a></li>
         <li><a href="#" class="hover:text-gray-900">Finance</a></li>
       </ul>
     </div>
+
+    <!-- Section: Buy, Rent and Sell -->
     <div>
-      <h4 class="font-bold text-gray-800 mb-2">Buy, Rent and Sell</h4>
-      <ul class="space-y-1">
+      <h4 class="font-bold text-gray-800 mb-4">Buy, Rent and Sell</h4>
+      <ul class="space-y-2">
         <li>
           <a href="#" class="hover:text-gray-900">Buy and sell properties</a>
         </li>
@@ -37,26 +48,32 @@ import Linkedin from "../assets/IconLinkedin.svg";
         <li><a href="#" class="hover:text-gray-900">Builder trade-up</a></li>
       </ul>
     </div>
+
+    <!-- Section: Terms & Privacy -->
     <div>
-      <h4 class="font-bold text-gray-800 mb-2">Terms & Privacy</h4>
-      <ul class="space-y-1">
+      <h4 class="font-bold text-gray-800 mb-4">Terms & Privacy</h4>
+      <ul class="space-y-2">
         <li><a href="#" class="hover:text-gray-900">Trust & Safety</a></li>
         <li><a href="#" class="hover:text-gray-900">Terms of Service</a></li>
         <li><a href="#" class="hover:text-gray-900">Privacy Policy</a></li>
       </ul>
     </div>
+
+    <!-- Section: About -->
     <div>
-      <h4 class="font-bold text-gray-800 mb-2">About</h4>
-      <ul class="space-y-1">
+      <h4 class="font-bold text-gray-800 mb-4">About</h4>
+      <ul class="space-y-2">
         <li><a href="#" class="hover:text-gray-900">Company</a></li>
         <li><a href="#" class="hover:text-gray-900">How it works</a></li>
         <li><a href="#" class="hover:text-gray-900">Contact</a></li>
         <li><a href="#" class="hover:text-gray-900">Investors</a></li>
       </ul>
     </div>
+
+    <!-- Section: Resources -->
     <div>
-      <h4 class="font-bold text-gray-800 mb-2">Resources</h4>
-      <ul class="space-y-1">
+      <h4 class="font-bold text-gray-800 mb-4">Resources</h4>
+      <ul class="space-y-2">
         <li><a href="#" class="hover:text-gray-900">Blog</a></li>
         <li><a href="#" class="hover:text-gray-900">Guides</a></li>
         <li><a href="#" class="hover:text-gray-900">FAQ</a></li>
@@ -64,18 +81,29 @@ import Linkedin from "../assets/IconLinkedin.svg";
       </ul>
     </div>
   </div>
-  <div class="flex justify-center space-x-6 mt-6">
-    <a href="#" aria-label="Facebook"
-      ><Facebook class="h-6 w-6 text-gray-600 hover:text-gray-900" /></a
+
+  <!-- Footer bottom -->
+  <div class="bg-gray-100 py-4 mt-8">
+    <div
+      class="container mx-auto flex flex-col md:flex-row items-center justify-between px-6"
     >
-    <a href="#" aria-label="Instagram"
-      ><IconInstagram class="h-6 w-6 text-gray-600 hover:text-gray-900" /></a
-    >
-    <a href="#" aria-label="Twitter"
-      ><IconTwitter class="h-6 w-6 text-gray-600 hover:text-gray-900" /></a
-    >
-    <a href="#" aria-label="Linkedin"
-      ><Linkedin class="h-6 w-6 text-gray-600 hover:text-gray-900" /></a
-    >
+      <p class="text-sm text-gray-500">©2021 Estatery. All rights reserved</p>
+      <div class="flex space-x-4 mt-4 md:mt-0">
+        <a href="#" aria-label="Facebook"
+          ><Facebook class="h-6 w-6 text-gray-500 hover:text-gray-800" /></a
+        >
+        <a href="#" aria-label="Instagram"
+          ><IconInstagram
+            class="h-6 w-6 text-gray-500 hover:text-gray-800"
+          /></a
+        >
+        <a href="#" aria-label="Twitter"
+          ><IconTwitter class="h-6 w-6 text-gray-500 hover:text-gray-800" /></a
+        >
+        <a href="#" aria-label="LinkedIn"
+          ><Linkedin class="h-6 w-6 text-gray-500 hover:text-gray-800" /></a
+        >
+      </div>
+    </div>
   </div>
 </footer>
