@@ -1,4 +1,5 @@
 ---
+import Card from "../components/Card.astro";
 import Header from "../components/Header.astro";
 import Base from "../Layouts/Base.astro";
 const offres = [
@@ -42,9 +43,19 @@ const offres = [
   <div class="bg-gray-100 py-1 mt-1">
     <div style="text-align: center; color: black;">
       <h1>Offres</h1>
-      <ul>
-        {offres.map((offre) => <li>{offre.nomMaison}</li>)}
-      </ul>
+      <div x-data="{ showFavorites: false }">
+    <button @click="showFavorites = !showFavorites">
+        <span x-show="!showFavorites">Afficher les favoris</span>
+        <span x-show="showFavorites">Afficher tout</span>
+    </button>
+
+    <div x-show="!showFavorites">
+        {offres.map((offre) => <Card {...offre} />)}
+    </div>
+    <div x-show="showFavorites">
+        {offres.filter((offre) => offre.favori).map((offre) => <Card {...offre} />)}
+    </div>
+</div>
     </div>
   </div>
 </Base>
