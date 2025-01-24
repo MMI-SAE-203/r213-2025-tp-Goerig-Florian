@@ -5,36 +5,36 @@ import Base from "../Layouts/Base.astro";
 const offres = [
   {
     adresse: "2821 Lake Sevilla, Palm Harbor, TX",
-    favori: true,
+    favori: false,
     id: "64l3n8nar836i5j",
     nbChambres: 4,
     nbSdb: 2,
     nomMaison: "Beverly Springfield",
     prix: 2700,
     surface: 45,
-    imgUrl: "image1.png",
+    imgUrl: "src/images/maison4.jpg",
   },
   {
     adresse: "2699 Green Valley, Highland Lake",
-    favori: true,
+    favori: false,
     id: "lo831zeg10hpm9y",
     nbChambres: 4,
     nbSdb: 2,
     nomMaison: "Palm Harbor",
     prix: 2095,
     surface: 42,
-    imgUrl: "image2.png",
+    imgUrl: "src/images/maison1.jpg",
   },
   {
     adresse: "909 Woodland St, Michigan, IN",
-    favori: false,
+    favori: true,
     id: "s1zuhj19x8eb242",
     nbChambres: 4,
     nbSdb: 3,
     nomMaison: "Faulkner Ave",
     prix: 4550,
     surface: 80,
-    imgUrl: "image3.png",
+    imgUrl: "src/images/maison7.jpg",
   },
 ];
 ---
@@ -44,18 +44,22 @@ const offres = [
     <div style="text-align: center; color: black;">
       <h1>Offres</h1>
       <div x-data="{ showFavorites: false }">
-    <button @click="showFavorites = !showFavorites">
-        <span x-show="!showFavorites">Afficher les favoris</span>
-        <span x-show="showFavorites">Afficher tout</span>
-    </button>
+        <button @click="showFavorites = !showFavorites">
+          <span x-show="!showFavorites">Afficher les favoris</span>
+          <span x-show="showFavorites">Afficher tout</span>
+        </button>
 
-    <div x-show="!showFavorites">
-        {offres.map((offre) => <Card {...offre} />)}
-    </div>
-    <div x-show="showFavorites">
-        {offres.filter((offre) => offre.favori).map((offre) => <Card {...offre} />)}
-    </div>
-</div>
+        <div x-show="!showFavorites">
+          {offres.map((offre) => <Card {...offre} />)}
+        </div>
+        <div x-show="showFavorites">
+          {
+            offres
+              .filter((offre) => offre.favori)
+              .map((offre) => <Card {...offre} />)
+          }
+        </div>
+      </div>
     </div>
   </div>
 </Base>
