@@ -3,52 +3,60 @@ import Card from "../components/Card.astro";
 import Header from "../components/Header.astro";
 import Base from "../Layouts/Base.astro";
 import { getOffres } from "../backend.mjs";
+
 const offres = await getOffres();
 ---
 
 <Base titre="offfres">
-  <div class="bg-gray-100 py-1 mt-1">
+  <div class="bg-gray-200 py-1 mt-1 " >
     <div style="text-align: center; color: black;">
       <h1>Offres</h1>
-      <div x-data="{ showFavorites: false }">
-        <button @click="showFavorites = !showFavorites">
-          <span x-show="!showFavorites">Afficher les favoris</span>
-          <span x-show="showFavorites">Afficher tout</span>
-        </button>
 
+      <!-- x-data avec 2 propriétés : showFavorites (pour basculer favoris/tout) et layout (pour grille/liste) -->
+      <div x-data="{ showFavorites: false, layout: 'grid' }" class="p-5">
+        <!-- Boutons pour basculer entre grid et list -->
+        <div class="mb-4 space-x-2">
+          <button
+            @click="layout = 'grid'"
+            class="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Affichage Grille
+          </button>
+          <button
+            @click="layout = 'list'"
+            class="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Affichage Liste
+          </button>
+
+          <!-- Bouton pour basculer entre favoris et tous -->
+          <button
+            @click="showFavorites = !showFavorites"
+            class="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            <span x-show="!showFavorites">Afficher les favoris</span>
+            <span x-show="showFavorites">Afficher tout</span>
+          </button>
+        </div>
+
+        <!-- Affichage "tout" (non-favoris + favoris), dynamique selon 'grid' ou 'list' -->
         <div
           x-show="!showFavorites"
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          :class="layout === 'grid'
+            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
+            : 'flex flex-col space-y-4'"
         >
           {offres.map((offre) => <Card {...offre} />)}
         </div>
+
+        <!-- Affichage "favoris" uniquement, dynamique selon 'grid' ou 'list' -->
         <div
           x-show="showFavorites"
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          :class="layout === 'grid'
+            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
+            : 'flex flex-col space-y-4'"
         >
           {offres.map((offre) => offre.favoris && <Card {...offre} />)}
-        </div>
-        <div x-data="{ bool: false }">
-          <button
-            @click="bool = !bool"
-            class="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            <span x-show="!bool">Afficher en grille</span>
-          </button>
-          <button
-            @click="bool = !bool"
-            class="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            <span x-show="!bool">Afficher en liste</span>
-          </button>
-
-          <div x-show="!bool && view ==='grid'">
-            {offres.map((offre) => <Card {...offre} />)}
-          </div>
-
-          <div x-show="bool && view ==='list'">
-            {offres.map((offre) => <Card {...offre} />)}
-          </div>
         </div>
       </div>
     </div>

@@ -2,18 +2,21 @@
 const offre = Astro.props;
 ---
 
-<li>
-  <div>
+
+  <div class="bg-black p-4 rounded-lg">
     <img
       src={offre.imgUrl}
       alt={offre.nom_maison}
-      class="w-80 h-80 object-cover rounded-lg"
+      class="w-100 h-80 object-cover rounded-lg"
     />
-    <h2>{offre.nom_maison}</h2>
+
+    <h2 class="text-white p-2">{offre.nom_maison}</h2>
+    <!--
     <p>{offre.adresse}</p>
     <p>{offre.prix} €</p>
     <p>{offre.surface} m²</p>
     <p>{offre.nbChambres} chambres</p>
     <p>{offre.nbSdb} salles de bain</p>
+    -->
   </div>
-</li>
+
