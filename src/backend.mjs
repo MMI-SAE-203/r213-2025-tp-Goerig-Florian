@@ -46,3 +46,12 @@ export async function byPrice(priceMax) {
     })
     return records;
 }
+
+export async function byPriceForked(min, max) {
+    let records = await pb.collection('Maison').getFullList({ filter: `'${min}' < prix < '${max}'` })
+    records = records.map((maison) => {
+        maison.imgURL = pb.files.getURL(maison, maison.images);
+        return maison;
+    })
+    return records;
+}
