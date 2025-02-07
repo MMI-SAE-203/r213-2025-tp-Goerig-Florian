@@ -1,0 +1,18 @@
+---
+import { byPrice } from "../../../backend.mjs";
+import Base from "../../../Layouts/Base.astro";
+import Card from "../../../components/Card.astro";
+
+const { prix } = Astro.params;
+const offres = await byPrice(prix);
+if (!offres) {
+  return Astro.redirect("/offres");
+}
+---
+
+<Base titre={prix}>
+  <h1 class="text-4xl my-4">Maisons avec un prix inférieur à {prix}$</h1>
+  <div class="grid grid-cols-3 gap-4">
+    {offres.map((offre) => <Card {...offre} />)}
+  </div>
+</Base>

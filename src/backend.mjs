@@ -28,3 +28,21 @@ export async function getOffre(id) {
         return null;
     }
 }
+
+export async function bySurface(surfMin) {
+    let records = await pb.collection('Maison').getFullList({ filter: `surface > '${surfMin}'` })
+    records = records.map((maison) => {
+        maison.imgURL = pb.files.getURL(maison, maison.images);
+        return maison;
+    })
+    return records;
+}
+
+export async function byPrice(priceMax) {
+    let records = await pb.collection('Maison').getFullList({ filter: `prix < '${priceMax}'` })
+    records = records.map((maison) => {
+        maison.imgURL = pb.files.getURL(maison, maison.images);
+        return maison;
+    })
+    return records;
+}
