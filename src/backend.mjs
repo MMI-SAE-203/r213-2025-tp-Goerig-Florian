@@ -3,16 +3,28 @@ const db = new PocketBase('http://127.0.0.1:8090');
 
 export async function getOffres() {
     try {
-        let tableau_maisons = await db.collection('maison').getFullList({
+        let data = await db.collection('maison').getFullList({
             sort: '-created',
         });
-        tableau_maisons = tableau_maisons.map((maison) => {
-            maison.imgUrl = db.files.getURL(maison, maison.image);
-            return maison;
+        data = data.map((event) => {
+            event.imgUrl = db.files.getURL(event, event.image);
+            return event;
         });
-        return tableau_maisons;
+        return data;
     } catch (error) {
-        console.log('Une erreur est survenue en lisant la liste des maisons', error);
+        console.log('Une erreur est survenue dans la liste des maison', error);
         return [];
+    }
+}
+
+//backend.mjs
+export async function getOffre(id) {
+    try {
+        let data = await db.collection('maison').getOne(id);
+        data.imageUrl = db.files.getURL(data, data.image);
+        return data;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant la maison', error);
+        return null;
     }
 }
