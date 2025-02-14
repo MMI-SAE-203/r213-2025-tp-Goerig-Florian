@@ -3,12 +3,34 @@ import Card from "../../components/Card.astro";
 import Header from "../../components/Header.astro";
 import Base from "../../Layouts/Base.astro";
 import { getOffres } from "../../backend.mjs";
+import { filterByPrix } from "../../backend.mjs";
 
-const offres = await getOffres();
+let offres = await getOffres();
+console.log("offres :", offres);
+let message = "";
+if (Astro.request.method === "POST") {
+  const data = await Astro.request.formData();
+  const minPrix = parseInt(data.get("minPrix") as string);
+  const maxPrix = parseInt(data.get("maxPrix") as string);
+
+  if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
+    offres = await filterByPrix(minPrix, maxPrix);
+    if (offres.length === 0) {
+      message = `Pas d'offres entre ${minPrix}€ et ${maxPrix}€`;
+    } else {
+      message = `Liste des offres entre ${minPrix}€ et ${maxPrix}€`;
+    }
+  } else {
+    message = "Veuillez entrer des valeurs valides pour le prix.";
+    offres = await getOffres();
+  }
+} else {
+  offres = await getOffres();
+}
 ---
 
 <Base titre="offfres">
-  <div class="bg-gray-200 py-1 mt-1 " >
+  <div class="bg-gray-200 py-1 mt-1">
     <div style="text-align: center; color: black;">
       <h1>Offres</h1>
 
@@ -37,7 +59,14 @@ const offres = await getOffres();
             <span x-show="!showFavorites">Afficher les favoris</span>
             <span x-show="showFavorites">Afficher tout</span>
           </button>
-          <a href ="/offres/add" class="px-4 py-2 bg-blue-500 text-white rounded">Ajouter une offre</a>
+          <a href="/offres/add" class="px-4 py-2 bg-blue-500 text-white rounded"
+            >Ajouter une offre</a
+          >
+          <form action="/offres" method="POST">
+            <input type="number" name="minPrix" placeholder="Prix minimum" />
+            <input type="number" name="maxPrix" placeholder="Prix maximum" />
+            <input type="submit" value="Filtrer par prix" />
+          </form>
         </div>
 
         <!-- Affichage "tout" (non-favoris + favoris), dynamique selon 'grid' ou 'list' -->
