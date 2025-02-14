@@ -2,12 +2,15 @@
 import Card from "../../components/Card.astro";
 import Header from "../../components/Header.astro";
 import Base from "../../Layouts/Base.astro";
-import { getOffres } from "../../backend.mjs";
-import { filterByPrix } from "../../backend.mjs";
+import { getOffres, filterByPrix } from "../../backend.mjs";
 
+// Récupération initiale des offres
 let offres = await getOffres();
 console.log("offres :", offres);
+
 let message = "";
+
+// Gestion du filtre par prix si méthode POST
 if (Astro.request.method === "POST") {
   const data = await Astro.request.formData();
   const minPrix = parseInt(data.get("minPrix") as string);
@@ -36,14 +39,19 @@ if (Astro.request.method === "POST") {
 
       <!-- x-data avec 2 propriétés : showFavorites (pour basculer favoris/tout) et layout (pour grille/liste) -->
       <div x-data="{ showFavorites: false, layout: 'grid' }" class="p-5">
-        <!-- Boutons pour basculer entre grid et list -->
-        <div class="mb-4 space-x-2">
+        <!-- Conteneur flex pour les boutons et le formulaire -->
+        <div
+          class="mb-4 flex flex-wrap items-center justify-center gap-2 sm:gap-4"
+        >
+          <!-- Bouton Grid -->
           <button
             @click="layout = 'grid'"
             class="px-4 py-2 bg-blue-500 text-white rounded"
           >
             Affichage Grille
           </button>
+
+          <!-- Bouton Liste -->
           <button
             @click="layout = 'list'"
             class="px-4 py-2 bg-blue-500 text-white rounded"
@@ -51,7 +59,7 @@ if (Astro.request.method === "POST") {
             Affichage Liste
           </button>
 
-          <!-- Bouton pour basculer entre favoris et tous -->
+          <!-- Bouton Favoris -->
           <button
             @click="showFavorites = !showFavorites"
             class="px-4 py-2 bg-blue-500 text-white rounded"
@@ -59,15 +67,44 @@ if (Astro.request.method === "POST") {
             <span x-show="!showFavorites">Afficher les favoris</span>
             <span x-show="showFavorites">Afficher tout</span>
           </button>
-          <a href="/offres/add" class="px-4 py-2 bg-blue-500 text-white rounded"
-            >Ajouter une offre</a
+
+          <!-- Lien Ajouter une offre -->
+          <a
+            href="/offres/add"
+            class="px-4 py-2 bg-blue-500 text-white rounded"
           >
-          <form action="/offres" method="POST">
-            <input type="number" name="minPrix" placeholder="Prix minimum" />
-            <input type="number" name="maxPrix" placeholder="Prix maximum" />
-            <input type="submit" value="Filtrer par prix" />
+            Ajouter une offre
+          </a>
+
+          <!-- Formulaire de filtrage par prix -->
+          <form
+            action="/offres"
+            method="POST"
+            class="flex flex-wrap items-center gap-2"
+          >
+            <input
+              type="number"
+              name="minPrix"
+              placeholder="Prix minimum"
+              class="border border-gray-300 rounded px-2 py-1"
+            />
+            <input
+              type="number"
+              name="maxPrix"
+              placeholder="Prix maximum"
+              class="border border-gray-300 rounded px-2 py-1"
+            />
+            <button
+              type="submit"
+              class="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Filtrer par prix
+            </button>
           </form>
         </div>
+
+        <!-- Affichage du message de filtre (si nécessaire) -->
+        {message && <p class="mb-4 text-red-600">{message}</p>}
 
         <!-- Affichage "tout" (non-favoris + favoris), dynamique selon 'grid' ou 'list' -->
         <div
