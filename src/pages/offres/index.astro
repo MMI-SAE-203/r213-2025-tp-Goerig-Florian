@@ -37,6 +37,7 @@ const offres = await getOffres();
             <span x-show="!showFavorites">Afficher les favoris</span>
             <span x-show="showFavorites">Afficher tout</span>
           </button>
+          <a href ="/offres/add" class="px-4 py-2 bg-blue-500 text-white rounded">Ajouter une offre</a>
         </div>
 
         <!-- Affichage "tout" (non-favoris + favoris), dynamique selon 'grid' ou 'list' -->
