@@ -30,27 +30,27 @@ export async function getOffre(id) {
 }
 
 export async function bySurface(surfMin) {
-    let records = await pb.collection('Maison').getFullList({ filter: `surface > '${surfMin}'` })
+    let records = await db.collection('Maison').getFullList({ filter: `surface > '${surfMin}'` })
     records = records.map((maison) => {
-        maison.imgURL = pb.files.getURL(maison, maison.images);
+        maison.imgURL = db.files.getURL(maison, maison.images);
         return maison;
     })
     return records;
 }
 
 export async function byPrice(priceMax) {
-    let records = await pb.collection('Maison').getFullList({ filter: `prix < '${priceMax}'` })
+    let records = await db.collection('Maison').getFullList({ filter: `prix < '${priceMax}'` })
     records = records.map((maison) => {
-        maison.imgURL = pb.files.getURL(maison, maison.images);
+        maison.imgURL = db.files.getURL(maison, maison.images);
         return maison;
     })
     return records;
 }
 
 export async function byPriceForked(min, max) {
-    let records = await pb.collection('Maison').getFullList({ filter: `'${min}' < prix < '${max}'` })
+    let records = await db.collection('Maison').getFullList({ filter: `'${min}' < prix < '${max}'` })
     records = records.map((maison) => {
-        maison.imgURL = pb.files.getURL(maison, maison.images);
+        maison.imgURL = db.files.getURL(maison, maison.images);
         return maison;
     })
     return records;
@@ -58,7 +58,7 @@ export async function byPriceForked(min, max) {
 
 export async function addOffre(house) {
     try {
-        await pb.collection('maison').create(house);
+        await db.collection('maison').create(house);
         return {
             success: true,
             message: 'Offre ajoutée avec succès'
