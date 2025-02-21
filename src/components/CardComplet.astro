@@ -1,76 +1,103 @@
 ---
-import { Picture } from "astro:assets";
 import IconBed from "../assets/IconBed.svg";
 import IconBath from "../assets/IconBath.svg";
 import IconArea from "../assets/IconArea.svg";
 import IconLove from "../assets/IconLove.svg";
 import DefaultImage from "../assets/img/house.avif";
+import { Debug } from "astro:components";
 
 export interface Props {
   key: string;
   title: string;
   price: number;
   address: string;
-  bedrooms: number;
-  bathrooms: number;
-  area: number;
+  chambre: number;
+  salle_de_bain: number;
+  surface: number;
   image: string;
   imageUrl: string;
+  favoris: boolean;
 }
 
 const {
   key,
   title,
-  price,
+  prix,
   address,
-  bedrooms,
-  bathrooms,
-  area,
+  chambre,
+  salle_de_bain,
+  surface,
   image,
   imageUrl,
+  favoris,
 } = Astro.props;
 ---
 
-<article>
-  <a href={`/properties/${key}`}>
-    <img
-      src={imageUrl || "/placeholder.svg"}
-      alt={`Image de ${title}`}
-      width={400}
-      height={300}
-      class="block rounded-t-lg overflow-hidden object-cover w-full aspect-3/2"
-    />
-  </a>
+
+<article
+  class="flex flex-col md:flex-row border border-indigo-200 rounded-lg overflow-hidden shadow-lg"
+>
+  <!-- Colonne de gauche : image -->
+  <div class="md:w-2/3">
+    <a href={`/properties/${key}`}>
+      <img
+        src={imageUrl || "/placeholder.svg"}
+        alt={`Image de ${title}`}
+        class="w-full h-full object-cover"
+        style="aspect-ratio: 16/9;"
+        <!--
+        Ajuste
+        l'aspect-ratio
+        si
+        nécessaire
+        --
+      />
+      />
+    </a>
+  </div>
+
+  <!-- Colonne de droite : informations -->
   <div
-    class="relative bg-white px-6 py-8 border border-indigo-200 border-t-0 rounded-b-lg space-y-4"
+    class="relative md:w-1/3 bg-white p-6 space-y-4"
+    x-data={`{ favori: ${favoris}, clickFavori() { this.favori = !this.favori; window.setFavori(${JSON.stringify(Astro.props)}) } }`}
+    class="rounded-lg overflow-hidden"
   >
+    <!-- Prix /mois -->
     <p class="text-gray-500 flex items-center">
-      <span class="text-2xl font-bold text-indigo-500">${price}</span>/month
+      <span class="text-2xl font-bold text-indigo-500">${prix}</span>/month
     </p>
+
+    <!-- Titre de la propriété -->
     <h3 class="text-2xl font-semibold">
-      <a class="text-black" href={`/properties/${key}`}>{title}</a>
+      <a class="text-black hover:text-indigo-600" href={`/properties/${key}`}>
+        {title}
+      </a>
     </h3>
-    <button
-      class="absolute right-6 top-8 !mt-0 border border-indigo-200 rounded-full p-2"
-    >
-      <IconLove class="stroke-indigo-500 relative top-[1px]" />
-    </button>
+
+    <!-- Adresse -->
     <address class="text-gray-500 not-italic border-b border-indigo-100 pb-4">
       {address}
     </address>
-    <ul class="flex justify-between text-sm :flex:gap-2">
-      <li>
-        <IconBed class="size-5 stroke-indigo-500" />
-        <span>{bedrooms} beds</span>
+
+    <!-- Caractéristiques (chambres, sdb, surface) -->
+    <ul class="flex justify-between text-sm gap-2">
+      <li class="flex items-center gap-1">
+        <IconBed class="w-5 h-5 text-indigo-500" />
+        <span>{chambre} beds</span>
       </li>
-      <li>
-        <IconBath class="size-5 stroke-indigo-500" />
-        <span>{bathrooms} bathrooms</span>
+      <li class="flex items-center gap-1">
+        <IconBath class="w-5 h-5 text-indigo-500" />
+        <span>{salle_de_bain} bathrooms</span>
       </li>
-      <li>
-        <IconArea class="size-5 stroke-indigo-500" />
-        <span>{area} m<sup>2</sup></span>
+      <li class="flex items-center gap-1">
+        <IconArea class="w-5 h-5 text-indigo-500" />
+        <span>{surface} m<sup>2</sup></span>
       </li>
     </ul>
   </div>
 </article>
+<script>
+  //@ts-nocheck
+  import { setFavori } from "../backend.mjs";
+  window.setFavori = setFavori;
+</script>

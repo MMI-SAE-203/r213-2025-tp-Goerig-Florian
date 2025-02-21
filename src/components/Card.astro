@@ -3,33 +3,52 @@ const offre = Astro.props;
 console.log(offre);
 ---
 
-<div
+<article
   x-data={`{ favori: ${offre.favori}, clickFavori() { this.favori = !this.favori; window.setFavori(${JSON.stringify(offre)}) } }`}
-  class="bg-blue-200 p-4 rounded-lg relative"
+  class="rounded-lg overflow-hidden"
 >
-  <img
-    src={offre.imgUrl}
-    alt={offre.nom_maison}
-    class="w-full h-80 object-cover rounded-lg"
-  />
-
-  <h2 class="text-white p-2">{offre.nom_maison}</h2>
-
-  <a href={`/offres/${offre.id}`} class="text-white">Voir plus</a>
-
-  <button
-    class="absolute bottom-0 left-0 p-2 text-white rounded-br-lg"
-    @click="clickFavori"
-  >
+  <!-- Image cliquable avec styles similaires -->
+  <a href={`/offres/${offre.id}`}>
     <img
-      :src="favori ? '/favorite_filled.png' : '/favorite.png'"
-      alt="Favorite Icon"
-      class="w-6 h-6"
+      src={offre.imgUrl}
+      alt={offre.nom_maison}
+      class="block w-full h-80 object-cover rounded-t-lg overflow-hidden"
     />
-  </button>
-</div>
+  </a>
+  <!-- Conteneur des détails avec les styles de l'exemple -->
+  <div
+    class="relative bg-white px-6 py-8 border border-indigo-200 border-t-0 rounded-b-lg space-y-4"
+  >
+    <p class="text-gray-500 flex items-center">
+      <span class="text-2xl font-bold text-indigo-500">${offre.prix}</span
+      >/month
+    </p>
+    <h3 class="text-2xl font-semibold">
+      <a class="text-black" href={`/offres/${offre.id}`}>{offre.nom_maison}</a>
+    </h3>
+    <address class="text-gray-500 not-italic border-b border-indigo-100 pb-4">
+      {offre.adresse}
+    </address>
+    <a href={`/offres/${offre.id}`} class="text-indigo-500 hover:underline"
+      >Voir plus</a
+    >
+
+    <!-- Bouton favoris positionné en haut à droite -->
+    <button
+      class="absolute right-6 top-8 !mt-0 border border-indigo-200 rounded-full p-2"
+      @click="clickFavori"
+    >
+      <img
+        :src="favori ? '/favorite_filled.png' : '/favorite.png'"
+        alt="Favorite Icon"
+        class="w-6 h-6"
+      />
+    </button>
+  </div>
+</article>
 
 <script>
+  //@ts-nocheck
   import { setFavori } from "../backend.mjs";
   window.setFavori = setFavori;
 </script>
