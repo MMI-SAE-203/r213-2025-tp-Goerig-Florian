@@ -89,3 +89,38 @@ export async function filterByPrix(prixMin, prixMax) {
         return [];
     }
 }
+
+// Récupérer la liste des agents
+export async function getAgents() {
+    try {
+        let agents = await db.collection('agent').getFullList({
+            sort: 'created', // ou un autre champ de tri, par exemple 'name'
+        });
+        return agents;
+    } catch (error) {
+        console.log("Une erreur est survenue lors de la récupération des agents", error);
+        return [];
+    }
+}
+
+// Récupérer les offres d'un agent
+export async function getOffersByAgent(agentId) {
+    try {
+        let offers = await db.collection('maison').getFullList({
+            sort: '-created',
+            filter: `agent = "${agentId}"` // assure-toi que le champ 'agent' dans la collection 'maison' contient l'ID de l'agent
+        });
+        offers = offers.map((maison) => {
+            maison.imgUrl = db.files.getURL(maison, maison.image);
+            return maison;
+        });
+        return offers;
+    } catch (error) {
+        console.log("Une erreur est survenue lors de la récupération des offres pour l'agent", error);
+        return [];
+    }
+}
+
+export async function setFavori(house) {
+    await db.collection('maison').update(house.id, { favori: !house.favori });
+}

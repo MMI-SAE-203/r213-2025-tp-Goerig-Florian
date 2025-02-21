@@ -1,0 +1,22 @@
+---
+import Base from "../../Layouts/Base.astro";
+import Card from "../../components/Card.astro";
+import { getOffersByAgent } from "../../backend.mjs";
+
+const { id } = Astro.params;
+const offers = await getOffersByAgent(id);
+
+if (!offers || offers.length === 0) {
+  // Option 1 : Redirection vers la liste des agents si aucun résultat n'est trouvé
+  return Astro.redirect("/agents");
+  // Option 2 : Afficher un message (à décommenter et adapter si besoin)
+  // let message = "Aucune offre pour cet agent.";
+}
+---
+
+<Base titre={`Offres de l'agent ${id}`}>
+  <h1>Offres de l'agent {id}</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {offers.map((offer) => <Card {...offer} />)}
+  </div>
+</Base>

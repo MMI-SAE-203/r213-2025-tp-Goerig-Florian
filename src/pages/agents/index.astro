@@ -1,0 +1,19 @@
+---
+import { Debug } from "astro:components";
+import Base from "../../Layouts/Base.astro";
+import { getAgents } from "../../backend.mjs";
+
+const agents = await getAgents();
+
+---
+<Base titre="Liste des agents">
+  <h1>Liste des agents</h1>
+  <ul>
+    {agents.map(agent => (
+      <li>
+        <!-- On suppose que chaque agent possède un id et un nom (agent.name) -->
+        <a href={`/agents/${agent.id}`}>{agent.nom}</a>
+      </li>
+    ))}
+  </ul>
+</Base>
